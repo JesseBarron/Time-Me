@@ -24,15 +24,8 @@ export default class RoutineScreen extends React.Component {
   })
 
   componentDidMount() {
-    const newItem = {
-      name: 'newItem',
-      body: `I'm extremely Tired`,
-      set: 22
-    }
-    newItem
-    AsyncStorage.getItem('id')
-    .then(result => console.log(JSON.parse(result), 'this is the result'))
-    .catch(err => console.log(err))
+    AsyncStorage.getItem('test')
+    .then(db => console.log('sanityyyyyyy checkkkkk', db))
   }
 
   render() {

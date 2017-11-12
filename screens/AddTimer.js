@@ -9,6 +9,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 import window from '../constants/dimensions';
+import { newDB } from "../App";
 
 export default class AddTimer extends React.Component {
   constructor(props) {
@@ -25,6 +26,14 @@ export default class AddTimer extends React.Component {
   static navigationOptions = (props) => ({
     title: props.navigation.state.params.title,
   });
+
+  componentDidMount() {
+    newDB.fetchDatabase()
+    .then(retrievedDB => {
+      console.log('fetched DB in timer', retrievedDB)
+    })
+  
+  }
 
   _handleNameChange(name) {
     this.setState({
