@@ -6,6 +6,7 @@ import {
   StyleSheet,
   AsyncStorage,
 } from 'react-native';
+import { newDB } from '../App';
 import { AddButton } from '../components/addButton';
 
 
@@ -24,8 +25,10 @@ export default class RoutineScreen extends React.Component {
   })
 
   componentDidMount() {
-    AsyncStorage.getItem('test')
-    .then(db => console.log('sanityyyyyyy checkkkkk', db))
+    newDB.fetchDatabase()
+    .then(db => {
+      console.log('database in routine screen', JSON.parse(db))
+    })
   }
 
   render() {

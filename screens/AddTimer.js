@@ -28,11 +28,7 @@ export default class AddTimer extends React.Component {
   });
 
   componentDidMount() {
-    newDB.fetchDatabase()
-    .then(retrievedDB => {
-      console.log('fetched DB in timer', retrievedDB)
-    })
-  
+    
   }
 
   _handleNameChange(name) {

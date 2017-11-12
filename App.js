@@ -17,10 +17,9 @@ const newExercises = {
 export const newDB = new AsyncStorageDB('test')
 const routine = newDB.define('routine', []);
 const timer = newDB.define('timer', [{ fakeRow: 34 }]);
-newDB.sync({ force: true })
+newDB.sync()
   .then(something => {
     console.log(something, 'synchronized database')
-    newDB.create('routine', newExercises)
   })
 
 

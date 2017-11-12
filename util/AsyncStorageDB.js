@@ -9,8 +9,8 @@ function AsyncTable(name, values) {
 };
 
 AsyncTable.prototype.addRow = function (row) {
-  if(typeof row === 'object') {
-    let newRow = Object.assign({}, row,  {id: this.indxCnt++});
+  if (typeof row === 'object') {
+    let newRow = Object.assign({}, row, { id: this.indxCnt++ });
     this.rows.push(newRow);
   }
 }
@@ -24,10 +24,11 @@ export default class AsyncStorageDB {
   }
 
   // DB methods
-  async fetchDatabase() { //returns a promise
+  async fetchDatabase(tableName) { //returns a promise
     try {
-      const fetchedDB = await AsyncStorage.getItem(this.dbName);
-      console.log(JSON.parse(fetchedDB), 'from the class') 
+      let fetchedDB = await JSON.parse(AsyncStorage.getItem(this.dbName));
+      
+      // return fetchedDB;
     }
     catch (err) {
       console.log(err);
@@ -35,7 +36,7 @@ export default class AsyncStorageDB {
   }
 
   // Tries to persist the database to local storage // if there's already a db with the same name we dont create a new one and return the existing tables
-  async sync({ force }) {
+  async sync(force=false) {
     try {
       const keys = await AsyncStorage.getAllKeys();
       if (keys.indexOf(this.dbName) === -1) {
@@ -43,13 +44,14 @@ export default class AsyncStorageDB {
         console.log(persistedDB, 'persist DB')
         return persistedDB;
       }
-      else if(force){
-        console.log('nope database not created');
-        let mergeDB = await AsyncStorage.mergeItem(this.dbName,  JSON.stringify(this.tables));
-        console.log(mergeDB, 'merge test')
-        return this;
+      else if (force) {
+        await AsyncStorage.removeItem(this.dbName)
+        await AsyncStorage.setItem(this.dbName, JSON.stringify(this.tables));
+        const newDB = await AsyncStorage.getItem(this.dbName);
+        console.log(newDB, 'merge test')
+        return newDB;
       }
-      else{
+      else {
         console.log('Fetching Existing DB');
         let existedDB = await AsyncStorage.getItem(this.dbName);
         return existedDB;
@@ -64,7 +66,6 @@ export default class AsyncStorageDB {
     try {
       const clearedDB = Object.assign({}, this);
       await AsyncStorage.removeItem(this.dbName);
-      // console.log(`This is database is deleted`, this)
       this.name = null;
       this.tables = {};
       return clearedDB;
@@ -91,7 +92,7 @@ export default class AsyncStorageDB {
   }
 
   dropTable(tableName) {
-    if(!this.tables[tableName]) {
+    if (!this.tables[tableName]) {
       return "Table does not exist"
     }
     delete this.tables[tableName];
@@ -101,7 +102,7 @@ export default class AsyncStorageDB {
 
   create(tableName, row) {
     this.tables[tableName].addRow(row);
-    // console.log(this.tables[tableName], 'testing if it changes on the db object')
-    this.sync({ force: true });
+    console.log(this.tables[tableName], 'testing if it changes on the db object')
+    return this.sync({ force: true });
   }
 };
