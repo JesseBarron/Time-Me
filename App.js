@@ -1,7 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MainNavigator from './navigator/stackNavigator';
+import AsyncStorageDB  from './util/AsyncStorageDB';
 
+const newDB = new AsyncStorageDB('test')
+newDB.sync();
 export default class App extends React.Component {
   render() {
     return (

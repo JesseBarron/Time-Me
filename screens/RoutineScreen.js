@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { AddButton } from '../components/addButton';
 
+
 export default class RoutineScreen extends React.Component {
   static navigationOptions = (props) => ({
     title: 'Routines',
@@ -16,11 +17,12 @@ export default class RoutineScreen extends React.Component {
         routeName={props.navigation.state.routeName}
         onPress={() => props.navigation.navigate('AddRoutine', {
           title: 'Add a new Routine',
-          type: 'Routine'          
+          type: 'Routine'
         })}
       />
     ),
   })
+
   componentDidMount() {
     const newItem = {
       name: 'newItem',
@@ -28,9 +30,11 @@ export default class RoutineScreen extends React.Component {
       set: 22
     }
     newItem
-    AsyncStorage.setItem('id', JSON.stringify(newItem))
+    AsyncStorage.getItem('id')
+    .then(result => console.log(JSON.parse(result), 'this is the result'))
+    .catch(err => console.log(err))
   }
-  
+
   render() {
     return (
       <View>
