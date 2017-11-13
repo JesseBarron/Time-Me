@@ -106,6 +106,6 @@ export default class AsyncStorageDB {
   create(tableName, row) {
     this.tables[tableName].addRow(row);
     // console.log(this.tables[tableName], 'testing if it changes on the db object')
-    return this.sync({ force: true });
+    return this.sync(true);
   }
 };

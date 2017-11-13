@@ -17,37 +17,7 @@ export default class RoutineScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      routines: [{
-          id: 0,
-          name: 'Leg Day',
-          exercises: [
-            {
-              name: 'lunges',
-              sets: 5,
-              reps: 15,
-              weight: 90,
-            },
-            {
-              name: 'squats',
-              sets: 5,
-              reps: 15,
-              weight: 180,
-            }
-          ]
-        },
-        {
-            id: 0,
-            name: 'Arm Day',
-            exercises: [
-              {
-                name: 'Bicept Curls',
-                sets: 5,
-                reps: 15,
-                weight: 40,
-              }
-            ]
-          }
-      ],
+      routines: []
     }
     this.handleRoutinePress = this.handleRoutinePress.bind(this)
   }
@@ -66,10 +36,23 @@ export default class RoutineScreen extends React.Component {
   })
 
   componentDidMount() {
-
+    newDB.fetchDatabase('routine')
+    .then(routines => {
+      this.setState({
+        routines: routines.rows
+      })
+    })
+  }
+  componentWillReceiveProps(){
+    newDB.fetchDatabase('routine')
+    .then(routines => {
+      this.setState({
+        routines: routines.rows
+      })
+    })
   }
 
-  handleRoutinePress(item){
+  handleRoutinePress(item) {
     let { navigation } = this.props;
     navigation.navigate('RoutineView', {
       routine: item,
@@ -82,61 +65,61 @@ export default class RoutineScreen extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={styles.RoutineScreenContainer}>
-      {
-        routines.length < 1
-        ? <View style={styles.noRoutineContainer}>
-            <View style={styles.noRoutineText}>
-              <Text style={ {color: '#86D29A', fontSize: 15, fontWeight: 'bold'} }>You Currently Have no Routines!</Text>
+        {
+          routines.length < 1
+            ? <View style={styles.noRoutineContainer}>
+              <View style={styles.noRoutineText}>
+                <Text style={{ color: '#86D29A', fontSize: 15, fontWeight: 'bold' }}>You Currently Have no Routines!</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Button
+                  title="Add A new Workout!"
+                  color="#387B4A"
+                  onPress={() => navigation.navigate('AddRoutine', {
+                    title: 'Add a new Routine',
+                    type: 'Routine'
+                  })}
+                />
+              </View>
             </View>
-            <View style={styles.buttonContainer}>
-              <Button
-              title="Add A new Workout!"
-              color="#387B4A"
-              onPress={() => navigation.navigate('AddRoutine', {
-                title: 'Add a new Routine',
-                type: 'Routine'
-              })}
-              />
-            </View>
-          </View>
-        : <FlatList
-            data={this.state.routines}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              const routine = item;
-              let totalWeight = 0;
-              routine.exercises.forEach(el => {
-                totalWeight += (el.weight * el.sets * el.reps) ;
-              })
-              console.log()
-              return (
-                <View style={styles.routineListContainer}>
-                  <TouchableOpacity onPress={() => this.handleRoutinePress(routine)}>
-                    <View>
-                      <Text style={{alignSelf:'center', fontWeight: 'bold', fontSize: 30}}>{ routine.name }</Text>
-                      <View style={{height: .4, width: '40%', backgroundColor:'black', alignSelf:'center'}}/>
-                    </View>
-                    <View style={styles.routineStatistics}>
-                      <Text style={styles.statText}>{`Total Exercises: ${routine.exercises.length}`}</Text>
-                      <Text style={styles.statText}>{`Total Weight: ${totalWeight} lb.`}</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )
-            }}
-          />
-      }
+            : <FlatList
+              data={this.state.routines}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                const routine = item;
+                let totalWeight = 0;
+                routine.exercises.forEach(el => {
+                  totalWeight += (el.weight * el.sets * el.reps);
+                })
+                console.log()
+                return (
+                  <View style={styles.routineListContainer}>
+                    <TouchableOpacity onPress={() => this.handleRoutinePress(routine)}>
+                      <View>
+                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', fontSize: 30 }}>{routine.name}</Text>
+                        <View style={{ height: .4, width: '40%', backgroundColor: 'black', alignSelf: 'center' }} />
+                      </View>
+                      <View style={styles.routineStatistics}>
+                        <Text style={styles.statText}>{`Total Exercises: ${routine.exercises.length}`}</Text>
+                        <Text style={styles.statText}>{`Total Weight: ${totalWeight} lb.`}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )
+              }}
+            />
+        }
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  RoutineScreenContainer:{
+  RoutineScreenContainer: {
     backgroundColor: '#359E51',
     height: '100%'
   },
-  noRoutineContainer:{
+  noRoutineContainer: {
     alignItems: 'center',
     top: 70,
   },
