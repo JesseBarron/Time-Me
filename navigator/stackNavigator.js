@@ -9,6 +9,7 @@ import { StackNavigator } from 'react-navigation';
 import TabNavigator from './TabNavigator';
 import AddRoutine from '../screens/AddRoutine';
 import AddTimer from '../screens/AddTimer';
+import SingleRoutine from '../screens/SingleRoutine';
 
 const RootNavigator = StackNavigator(
   {
@@ -20,7 +21,10 @@ const RootNavigator = StackNavigator(
     },
     AddTimer: {
       screen: AddTimer,
-    }
+    },
+    RoutineView: {
+      screen: SingleRoutine,
+    },
   },
   {
     navigationOptions: () => ({

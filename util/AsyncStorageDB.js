@@ -26,9 +26,12 @@ export default class AsyncStorageDB {
   // DB methods
   async fetchDatabase(tableName) { //returns a promise
     try {
-      let fetchedDB = await JSON.parse(AsyncStorage.getItem(this.dbName));
-      
-      // return fetchedDB;
+      let fetchedDB = await AsyncStorage.getItem(this.dbName);
+      fetchedDB = JSON.parse(fetchedDB);
+      fetchedDB = tableName && fetchedDB[tableName]
+      ? fetchedDB[tableName]
+      : fetchedDB;
+      return fetchedDB;
     }
     catch (err) {
       console.log(err);
@@ -96,13 +99,13 @@ export default class AsyncStorageDB {
       return "Table does not exist"
     }
     delete this.tables[tableName];
-    console.log(this)
+    // console.log(this)
     this.sync({ force: true })
   }
 
   create(tableName, row) {
     this.tables[tableName].addRow(row);
-    console.log(this.tables[tableName], 'testing if it changes on the db object')
+    // console.log(this.tables[tableName], 'testing if it changes on the db object')
     return this.sync({ force: true });
   }
 };

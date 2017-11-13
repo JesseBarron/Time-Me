@@ -10,7 +10,6 @@ import {
   AsyncStorage,
   TouchableOpacity,
 } from 'react-native';
-import window from '../constants/dimensions';
 import { randomId } from '../util/idGenerator';
 import exerciseList from '../components/exerciseList';
 
@@ -60,7 +59,6 @@ export default class AddRoutine extends React.Component {
         reps,
         weight
       }
-
       this.setState({
         exercises: [...this.state.exercises, newExercise],
         modalVisible: !this.state.modalVisible

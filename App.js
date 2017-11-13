@@ -16,11 +16,12 @@ const newExercises = {
 
 export const newDB = new AsyncStorageDB('test')
 const routine = newDB.define('routine', []);
-const timer = newDB.define('timer', [{ fakeRow: 34 }]);
+const timer = newDB.define('timer', []);
 newDB.sync()
   .then(something => {
     console.log(something, 'synchronized database')
   })
+  .catch(err => console.log(err));
 
 
 
