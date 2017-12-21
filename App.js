@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MainNavigator from './navigator/stackNavigator'; 
+import MainNavigator from './navigator/stackNavigator';
 import TabNavigator from './navigator/TabNavigator';
+import firebase from './utility/firebase'
 
 export default class App extends React.Component {
   render() {
@@ -19,4 +20,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-

@@ -15,9 +15,10 @@ export default class AddScreen extends React.Component {
 
     };
   }
+
   static navigationOptions = (props) => ({
     title: props.navigation.state.params.title,
-    headerRight: 
+    headerRight: null
   });
 
   render() {

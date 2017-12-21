@@ -1,0 +1,30 @@
+{
+  "name": "Time-Me-Server",
+  "version": "1.0.0",
+  "description": "Server for my expo application",
+  "main": "index.js",
+  "author": "Jesse Barron",
+  "license": "MIT",
+  "scripts": {
+    "echo": "echo This is a test.",
+    "start": "node server",
+    "start-dev": "npm run start-server",
+    "start-server": "NODE_ENV='development' nodemon server"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
+    "express": "^4.16.2",
+    "firebase-admin": "^5.5.1",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.28.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "chalk": "^2.3.0",
+    "nodemon": "^1.14.1"
+  }
+}
