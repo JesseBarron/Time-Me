@@ -1,4 +1,5 @@
-const router = require('express').Router()
+import { Router } from 'express'
+const router = Router()
 const { admin, firebaseDB, usersFB } = require('../../firebaseSource')
 
 router.get('/', async (req, res, next) => {
@@ -56,7 +57,6 @@ router.delete('/:userId', async (req, res, next) => {
 
 router.use((req, res, next) => {
   const err = new Error('Not Found')
-  err.status = 404
   next(err)
 })
 

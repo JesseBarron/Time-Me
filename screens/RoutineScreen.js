@@ -5,7 +5,7 @@ import {
   Button,
   StyleSheet,
 } from 'react-native';
-import { AuthSession } from 'expo'
+import Expo,{ AuthSession, Google, WebBrowser} from 'expo'
 import { AddButton } from '../components/addButton';
 
 export default class RoutineScreen extends React.Component {
@@ -13,9 +13,10 @@ export default class RoutineScreen extends React.Component {
     super(props)
   }
 
-  componentDidMount(){
+  componentDidMount() {
 
   }
+
   static navigationOptions = (props) => ({
     title: 'Routines',
     headerRight: (
@@ -27,12 +28,24 @@ export default class RoutineScreen extends React.Component {
       />
     ),
   })
-_handlePress = () => {
-  const redirect = AuthSession.getRedirectUrl()
-  console.log(encodeURIComponent(redirect))
+
+_handlePress = async () => {
+  try{
+    // const info = await Google.logInAsync({
+    //   behavoir: 'web',
+    //   scopes: ['email'],
+    //   iosClientId:
+    // })
+    // const info = await WebBrowser.openAuthSessionAsync('https://github.com/login/oauth/authorize/?client_id=63b3ae97e9b8a2cf9fac')
+    const info = await WebBrowser.openAuthSessionAsync('http://localhost:8080/auth/facebook/login')
+    console.log(info);
+    console.log(Expo.Constants.linkingUri);
+  } catch(err){
+    console.log(err, "ERROR")
+  }
 }
+
   render() {
-    console.log('cmon masdjfha');
     return (
       <View>
         <Text>This is the routine screen</Text>
